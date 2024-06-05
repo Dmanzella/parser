@@ -1,0 +1,3 @@
+module MYSIMPLEPROTOCOL_GENERATEID;
+
+public function generateId() : string &cxxname="MYSIMPLEPROTOCOL_GENERATEID::generateId";

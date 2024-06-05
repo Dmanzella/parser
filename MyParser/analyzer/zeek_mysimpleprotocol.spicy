@@ -1,0 +1,13 @@
+module Zeek_MySimpleProtocol;
+
+import MYSIMPLEPROTOCOL;
+import spicy;
+
+on MYSIMPLEPROTOCOL::Messages::%done {
+    spicy::accept_input();
+}
+
+on MYSIMPLEPROTOCOL::Messages::%error {
+    spicy::decline_input("error parsing MySimpleProtocol message");
+}
+

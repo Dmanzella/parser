@@ -1,0 +1,18 @@
+import MYSIMPLEPROTOCOL;
+import MYSIMPLEPROTOCOL_ENUM;
+import Zeek_MySimpleProtocol;
+
+protocol analyzer spicy::MYSIMPLEPROTOCOL_TCP over TCP:
+    parse with MYSIMPLEPROTOCOL::Messages,
+    ports {8888/tcp};
+
+export MYSIMPLEPROTOCOL::Messages;
+export MYSIMPLEPROTOCOL::Message;
+
+on MYSIMPLEPROTOCOL::Message -> event MYSIMPLEPROTOCOL::MessageEvt (
+    $conn,
+    $is_orig,
+    self
+);
+
+

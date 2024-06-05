@@ -1,0 +1,10 @@
+module MYSIMPLEPROTOCOL_ENUM;
+
+public type MessageType = enum {
+    ServerMessage   = 0,
+    ClientMessage   = 1
+};
+
+
+# vim: ai si tabstop=4 shiftwidth=4 softtabstop=4 expandtab colorcolumn=101 syntax=spicy
+

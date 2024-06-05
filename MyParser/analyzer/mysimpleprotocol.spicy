@@ -1,0 +1,28 @@
+module MYSIMPLEPROTOCOL;
+
+import spicy;
+
+import MYSIMPLEPROTOCOL_ENUM;
+
+public type Messages = unit {
+     : Message[];
+};
+
+public type Message = unit {
+    header       : MYSIMPLEPROTOCOL::Header;
+    body         : MYSIMPLEPROTOCOL::Body(self.header.length);
+};
+
+type Body = unit (length : uint8) {
+    data         : (uint8)[length];
+};
+
+type Header = unit {
+    headerBits       : bitfield(8) {
+                           version      : 4..7;
+                           messageType  : 0..3 &convert=MYSIMPLEPROTOCOL_ENUM::MessageType($$);
+                       };
+    length           : uint8;
+};
+
+# vim: ai si tabstop=4 shiftwidth=4 softtabstop=4 expandtab colorcolumn=101 syntax=spicy
