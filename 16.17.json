@@ -7,22 +7,38 @@
     "copyrightHolder": "Battelle Energy Alliance",
     "copyrightContactEmail": "",
     "license": "",
-    "conversionFile": "I2luY2x1ZGUgPHN0cmluZz4KI2luY2x1ZGUgPGlvc3RyZWFtPgojaW5jbHVkZSA8YWxnb3JpdGhtPgojaW5jbHVkZSA8cmFuZG9tPgojaW5jbHVkZSA8aGlsdGkvcnQvbGliaGlsdGkuaD4KI2luY2x1ZGUgPHNwaWN5L3J0L2xpYnNwaWN5Lmg+CgpuYW1lc3BhY2UgQkFDTkVUX0NPTlZFUlNJT04KewogICAgc3RkOjpzdHJpbmcgZGF0ZUNvbnZlcnNpb24oY29uc3QgaGlsdGk6OnJ0OjpCeXRlcyAmZGF0YSkgICAgewogICAgICAgIGlmKGRhdGEuc2l6ZSgpIDwgMykKICAgICAgICB7CiAgICAgICAgICAgIHByaW50ZigiW2Vycm9yXSBEYXRlIFR5cGUgSW1wcm9wZXIgQnl0ZSBMZW5ndGggKCVsaSksIG11c3QgYmUgM1xuIiwgZGF0YS5zaXplKCkpOwogICAgICAgICAgICByZXR1cm4gIiI7CiAgICAgICAgfQoKICAgICAgICBjb25zdCBjaGFyICpjaGFyX3B0ciA9IChjb25zdCBjaGFyICopIGRhdGEuZGF0YSgpOwoKICAgICAgICB1bnNpZ25lZCBjaGFyIGRheSA9IGNoYXJfcHRyWzBdOwogICAgICAgIHVuc2lnbmVkIGNoYXIgbW9udGggPSBjaGFyX3B0clsxXTsKICAgICAgICB1bnNpZ25lZCBjaGFyIHNob3J0WWVhciA9IGNoYXJfcHRyWzJdOwogICAgICAgIHVuc2lnbmVkIGludCBsb25nWWVhciA9IDE5MDAgKyBzaG9ydFllYXI7CgogICAgICAgIHJldHVybiBzdGQ6OnRvX3N0cmluZyhtb250aCkgKyAiLSIgKwogICAgICAgICAgICAgICBzdGQ6OnRvX3N0cmluZyhkYXkpICsgIi0iICsKICAgICAgICAgICAgICAgc3RkOjp0b19zdHJpbmcobG9uZ1llYXIpOwogICAgfQoKICAgIHN0ZDo6c3RyaW5nIHRpbWVDb252ZXJzaW9uKGNvbnN0IGhpbHRpOjpydDo6Qnl0ZXMgJmRhdGEpICAgIHsKICAgICAgICBjb25zdCB1bnNpZ25lZCBpbnQgTUlMTElTRUNPTkRfUEFSVFMgPSAzMjsKICAgICAgICBjb25zdCB1bnNpZ25lZCBpbnQgU0VDT05EU19QRVJfTUlOVVRFID0gNjA7CiAgICAgICAgY29uc3QgdW5zaWduZWQgaW50IE1JTlVURVNfUEVSX0hPVVIgPSA2MDsKICAgICAgICBpZihkYXRhLnNpemUoKSA8IDQpCiAgICAgICAgewogICAgICAgICAgICBwcmludGYoIltlcnJvcl0gVGltZSBUeXBlIEltcHJvcGVyIEJ5dGUgTGVuZ3RoICglbGkpLCBtdXN0IGJlIDRcbiIsIGRhdGEuc2l6ZSgpKTsKICAgICAgICAgICAgcmV0dXJuICIiOwogICAgICAgIH0KICAgICAgICBjb25zdCBjaGFyICpjaGFyX3B0ciA9IChjb25zdCBjaGFyICopIGRhdGEuZGF0YSgpOwogICAgICAgIHVuc2lnbmVkIGludCB0aW1lID0gMDsKICAgICAgICBmb3IoaW50IGkgPSAwOyBpIDwgNDsgKytpKQogICAgICAgIHsKICAgICAgICAgICAgdGltZSA8PD0gODsKICAgICAgICAgICAgdGltZSB8PSAodW5zaWduZWQgY2hhciljaGFyX3B0cltpXTsKICAgICAgICB9CiAgICAgICAgLy9wcmludGYoIlRpbWU6ICV1XG4iLCB0aW1lKTsKICAgICAgICBmbG9hdCBmcmFjdGlvblBhcnQgPSAoZmxvYXQpKHRpbWUgJSBNSUxMSVNFQ09ORF9QQVJUUykvKGZsb2F0KU1JTExJU0VDT05EX1BBUlRTOwogICAgICAgIHVuc2lnbmVkIGludCB0b3RhbFNlY29uZHMgPSB0aW1lIC8gTUlMTElTRUNPTkRfUEFSVFM7IC8vIFNhbWUgYXMgdGltZSA+PiA1CiAgICAgICAgdW5zaWduZWQgaW50IHNlY29uZHNQYXJ0ID0gdG90YWxTZWNvbmRzICUgU0VDT05EU19QRVJfTUlOVVRFOwogICAgICAgIHVuc2lnbmVkIGludCB0b3RhbE1pbnV0ZXMgPSB0b3RhbFNlY29uZHMgLyBTRUNPTkRTX1BFUl9NSU5VVEU7CiAgICAgICAgdW5zaWduZWQgaW50IG1pbnV0ZXNQYXJ0ID0gdG90YWxNaW51dGVzICUgTUlOVVRFU19QRVJfSE9VUjsKICAgICAgICB1bnNpZ25lZCBpbnQgaG91cnNQYXJ0ID0gdG90YWxNaW51dGVzIC8gTUlOVVRFU19QRVJfSE9VUjsKCiAgICAgICAgc3RkOjpzdHJpbmcgcmV0dXJuU3RyaW5nID0gIiI7CiAgICAgICAgc3RkOjpzdHJpbmcgdGVtcFN0cmluZyA9ICIiOwogICAgICAgIGlmKDAgPCBzZWNvbmRzUGFydCB8fCAwLjAgPCBmcmFjdGlvblBhcnQpCiAgICAgICAgewogICAgICAgICAgICByZXR1cm5TdHJpbmcgPSBzdGQ6OnRvX3N0cmluZyhmcmFjdGlvblBhcnQgKyBzZWNvbmRzUGFydCkgKwogICAgICAgICAgICAgICAgICAgICAgICAgICAiIHNlY29uZHMgc2luY2UgbWlkbmlnaHQiOwogICAgICAgIH0KICAgICAgICBpZigwIDwgbWludXRlc1BhcnQpCiAgICAgICAgewogICAgICAgICAgICB0ZW1wU3RyaW5nID0gc3RkOjp0b19zdHJpbmcobWludXRlc1BhcnQpICsgIiBtaW51dGVzIjsKICAgICAgICAgICAgaWYoIiIgIT0gcmV0dXJuU3RyaW5nKQogICAgICAgICAgICB7CiAgICAgICAgICAgICAgICB0ZW1wU3RyaW5nICs9ICIsICI7CiAgICAgICAgICAgIH0KICAgICAgICAgICAgcmV0dXJuU3RyaW5nID0gdGVtcFN0cmluZyArIHJldHVyblN0cmluZzsKICAgICAgICB9CiAgICAgICAgaWYoMCA8IGhvdXJzUGFydCkKICAgICAgICB7CiAgICAgICAgICAgIHRlbXBTdHJpbmcgPSBzdGQ6OnRvX3N0cmluZyhob3Vyc1BhcnQpICsgIiBob3VycyI7CiAgICAgICAgICAgIGlmKCIiICE9IHJldHVyblN0cmluZykKICAgICAgICAgICAgewogICAgICAgICAgICAgICAgdGVtcFN0cmluZyArPSAiLCAiOwogICAgICAgICAgICB9CiAgICAgICAgICAgIHJldHVyblN0cmluZyA9IHRlbXBTdHJpbmcgKyByZXR1cm5TdHJpbmc7CiAgICAgICAgfQoKICAgICAgICByZXR1cm4gcmV0dXJuU3RyaW5nOwogICAgfQoKICAgIHN0ZDo6c3RyaW5nIHJlYWxDb252ZXJzaW9uKGNvbnN0IGhpbHRpOjpydDo6Qnl0ZXMgJmRhdGEpIHsKICAgIAlpZiAoZGF0YS5zaXplKCkgIT0gNCkgewogICAgICAgIAlwcmludGYoIltlcnJvcl0gUmVhbCBUeXBlIEltcHJvcGVyIEJ5dGUgTGVuZ3RoICglbGkpLCBtdXN0IGJlIDRcbiIsIGRhdGEuc2l6ZSgpKTsKICAgICAgICAJcmV0dXJuICIiOwogICAgCX0KCiAgICAJY29uc3QgY2hhciAqY2hhcl9wdHIgPSAoY29uc3QgY2hhciAqKSBkYXRhLmRhdGEoKTsKICAgIAlmbG9hdCB2YWx1ZTsKICAgIAlzdGQ6Om1lbWNweSgmdmFsdWUsIGNoYXJfcHRyLCBzaXplb2YoZmxvYXQpKTsgLy8gQXNzdW1pbmcgSUVFRSA3NTQgZmxvYXQgcmVwcmVzZW50YXRpb24KCiAgICAJcmV0dXJuIHN0ZDo6dG9fc3RyaW5nKHZhbHVlKTsKICAgIH0KCQogICAgc3RkOjpzdHJpbmcgZG91YmxlRmxvYXRDb252ZXJzaW9uKGNvbnN0IGhpbHRpOjpydDo6Qnl0ZXMgJmRhdGEpIHsKICAgIAlpZiAoZGF0YS5zaXplKCkgIT0gOCkgewogICAgICAgIAlwcmludGYoIltlcnJvcl0gRG91YmxlIEZsb2F0IFR5cGUgSW1wcm9wZXIgQnl0ZSBMZW5ndGggKCVsaSksIG11c3QgYmUgOFxuIiwgZGF0YS5zaXplKCkpOwogICAgICAgIAlyZXR1cm4gIiI7CiAgICAJfQoKICAgIAljb25zdCBjaGFyICpjaGFyX3B0ciA9IChjb25zdCBjaGFyICopIGRhdGEuZGF0YSgpOwogICAgCWRvdWJsZSB2YWx1ZTsKICAgIAlzdGQ6Om1lbWNweSgmdmFsdWUsIGNoYXJfcHRyLCBzaXplb2YoZG91YmxlKSk7IC8vIEFzc3VtaW5nIElFRUUgNzU0IGRvdWJsZSByZXByZXNlbnRhdGlvbgoKICAgIAlyZXR1cm4gc3RkOjp0b19zdHJpbmcodmFsdWUpOwogICAgfQoKICAgIHN0ZDo6c3RyaW5nIGRhdGVDb252ZXJzaW9uKGNvbnN0IGhpbHRpOjpydDo6Qnl0ZXMgJmRhdGEpIHsKICAgIAlpZiAoZGF0YS5zaXplKCkgIT0gNCkgewogICAgICAgIAlwcmludGYoIltlcnJvcl0gRGF0ZSBUeXBlIEltcHJvcGVyIEJ5dGUgTGVuZ3RoICglbGkpLCBtdXN0IGJlIDRcbiIsIGRhdGEuc2l6ZSgpKTsKICAgICAgICAJcmV0dXJuICIiOwogICAgCX0KCiAgICAJY29uc3QgY2hhciAqY2hhcl9wdHIgPSAoY29uc3QgY2hhciAqKSBkYXRhLmRhdGEoKTsKCiAgICAJdW5zaWduZWQgY2hhciBkYXkgPSBjaGFyX3B0clswXTsKICAgIAl1bnNpZ25lZCBjaGFyIG1vbnRoID0gY2hhcl9wdHJbMV07CiAgICAJdW5zaWduZWQgc2hvcnQgeWVhcjsKICAgIAlzdGQ6Om1lbWNweSgmeWVhciwgJmNoYXJfcHRyWzJdLCBzaXplb2YodW5zaWduZWQgc2hvcnQpKTsKCiAgICAJcmV0dXJuIHN0ZDo6dG9fc3RyaW5nKG1vbnRoKSArICItIiArIHN0ZDo6dG9fc3RyaW5nKGRheSkgKyAiLSIgKyBzdGQ6OnRvX3N0cmluZyh5ZWFyKTsKICAgIH0KfQo=",
     "usesTCP": false,
     "usesUDP": true,
+    "conversionFile": "I2luY2x1ZGUgPHN0cmluZz4KI2luY2x1ZGUgPGlvc3RyZWFtPgojaW5jbHVkZSA8YWxnb3JpdGhtPgojaW5jbHVkZSA8cmFuZG9tPgojaW5jbHVkZSA8aGlsdGkvcnQvbGliaGlsdGkuaD4KI2luY2x1ZGUgPHNwaWN5L3J0L2xpYnNwaWN5Lmg+CgpuYW1lc3BhY2UgQkFDTkVUX0NPTlZFUlNJT04KewoKICAgIGZsb2F0IGdldF9mbG9hdChjb25zdCBoaWx0aTo6cnQ6OkJ5dGVzICZkYXRhKSB7CiAgICAgICAgaWYgKGRhdGEuc2l6ZSgpICE9IDQpIHsKICAgICAgICAgICAgcHJpbnRmKCJbZXJyb3JdIEZsb2F0IFR5cGUgSW1wcm9wZXIgQnl0ZSBMZW5ndGggKCV6dSksIG11c3QgYmUgNFxuIiwgc3RhdGljX2Nhc3Q8c2l6ZV90PihkYXRhLnNpemUoKSkpOwogICAgICAgICAgICByZXR1cm4gMC4wOwogICAgICAgIH0KCiAgICAgICAgY2hhciBmbG9hdF9yZXN1bHRbNF07CiAgICAgICAgY29uc3QgY2hhciAqZGF0YV9wdHIgPSByZWludGVycHJldF9jYXN0PGNvbnN0IGNoYXIgKj4oZGF0YS5kYXRhKCkpOwoKICAgICAgICBmb3IgKHNpemVfdCBpID0gMDsgaSA8IDQ7ICsraSkgewogICAgICAgICAgICBmbG9hdF9yZXN1bHRbaV0gPSBkYXRhX3B0clszIC0gaV07IC8vIFJldmVyc2UgYnl0ZSBvcmRlcgogICAgICAgIH0KCiAgICAgICAgZmxvYXQgdmFsdWU7CiAgICAgICAgc3RkOjptZW1jcHkoJnZhbHVlLCBmbG9hdF9yZXN1bHQsIHNpemVvZihmbG9hdCkpOwoKICAgICAgICByZXR1cm4gdmFsdWU7CiAgICB9CgogICAgc3RkOjpzdHJpbmcgcmVhbENvbnZlcnNpb24oY29uc3QgaGlsdGk6OnJ0OjpCeXRlcyAmZGF0YSkgewogICAgICAgIGZsb2F0IHZhbHVlID0gZ2V0X2Zsb2F0KGRhdGEpOwogICAgICAgIHJldHVybiBzdGQ6OnRvX3N0cmluZyh2YWx1ZSk7CiAgICB9CgogICAgc3RkOjpzdHJpbmcgZG91YmxlRmxvYXRDb252ZXJzaW9uKGNvbnN0IGhpbHRpOjpydDo6Qnl0ZXMgJmRhdGEpIHsKICAgICAgICBpZiAoZGF0YS5zaXplKCkgIT0gOCkgewogICAgICAgICAgICBwcmludGYoIltlcnJvcl0gRG91YmxlIEZsb2F0IFR5cGUgSW1wcm9wZXIgQnl0ZSBMZW5ndGggKCV6dSksIG11c3QgYmUgOFxuIiwgc3RhdGljX2Nhc3Q8c2l6ZV90PihkYXRhLnNpemUoKSkpOwogICAgICAgICAgICByZXR1cm4gIiI7CiAgICAgICAgfQoKICAgICAgICBjaGFyIGRvdWJsZV9yZXN1bHRbOF07CiAgICAgICAgY29uc3QgY2hhciAqZGF0YV9wdHIgPSByZWludGVycHJldF9jYXN0PGNvbnN0IGNoYXIgKj4oZGF0YS5kYXRhKCkpOwoKICAgICAgICBmb3IgKHNpemVfdCBpID0gMDsgaSA8IDg7ICsraSkgewogICAgICAgICAgICBkb3VibGVfcmVzdWx0W2ldID0gZGF0YV9wdHJbNyAtIGldOyAvLyBSZXZlcnNlIGJ5dGUgb3JkZXIKICAgICAgICB9CgogICAgICAgIGRvdWJsZSB2YWx1ZTsKICAgICAgICBzdGQ6Om1lbWNweSgmdmFsdWUsIGRvdWJsZV9yZXN1bHQsIHNpemVvZihkb3VibGUpKTsKCiAgICAgICAgcmV0dXJuIHN0ZDo6dG9fc3RyaW5nKHZhbHVlKTsKICAgIH0KCiAgICBzdGQ6OnN0cmluZyBkYXRlQ29udmVyc2lvbihjb25zdCBoaWx0aTo6cnQ6OkJ5dGVzICZkYXRhKSB7CiAgICAgICAgaWYgKGRhdGEuc2l6ZSgpIDwgMykgewogICAgICAgICAgICBwcmludGYoIltlcnJvcl0gRGF0ZSBUeXBlIEltcHJvcGVyIEJ5dGUgTGVuZ3RoICglenUpLCBtdXN0IGJlIDNcbiIsIHN0YXRpY19jYXN0PHNpemVfdD4oZGF0YS5zaXplKCkpKTsKICAgICAgICAgICAgcmV0dXJuICIiOwogICAgICAgIH0KCiAgICAgICAgY29uc3QgdW5zaWduZWQgY2hhciAqY2hhcl9wdHIgPSByZWludGVycHJldF9jYXN0PGNvbnN0IHVuc2lnbmVkIGNoYXIgKj4oZGF0YS5kYXRhKCkpOwogICAgICAgIHVuc2lnbmVkIGNoYXIgZGF5ID0gY2hhcl9wdHJbMF07CiAgICAgICAgdW5zaWduZWQgY2hhciBtb250aCA9IGNoYXJfcHRyWzFdOwogICAgICAgIHVuc2lnbmVkIGNoYXIgc2hvcnRZZWFyID0gY2hhcl9wdHJbMl07CiAgICAgICAgdW5zaWduZWQgaW50IGxvbmdZZWFyID0gMTkwMCArIHNob3J0WWVhcjsKCiAgICAgICAgcmV0dXJuIHN0ZDo6dG9fc3RyaW5nKG1vbnRoKSArICItIiArCiAgICAgICAgICAgICAgIHN0ZDo6dG9fc3RyaW5nKGRheSkgKyAiLSIgKwogICAgICAgICAgICAgICBzdGQ6OnRvX3N0cmluZyhsb25nWWVhcik7CiAgICB9Cgp9",
     "Ports": [
         {
             "protocol": "udp",
             "port": 47808
         }
     ],
-    "CustomFieldTypes": [],
+    "CustomFieldTypes": [
+        {
+            "name": "date",
+            "interpretingFunction": "dateConversion",
+            "returnType": "string"
+        },
+        {
+            "name": "real",
+            "interpretingFunction": "realConversion",
+            "returnType": "string"
+        },
+        {
+            "name": "double",
+            "interpretingFunction": "doubleConversion",
+            "returnType": "string"
+        }
+    ],
     "Structures": {
         "Enums": [
             {
                 "name": "BlvcType",
                 "reference": "",
-                "notes": "",
+                "notes": "Ignoring all the other types, this is the one we care about",
                 "scope": "",
                 "size": 8,
                 "fields": [
@@ -17556,7 +17572,7 @@
                     {
                         "name": "propertyData",
                         "description": "",
-                        "notes": "",
+                        "notes": "These 4 fields need to eventually be conditional on the propertyTag tagNumber enum which specifies the data type",
                         "conditional": {
                             "indicator": "self.propertyTag.lengthValueType",
                             "operator": "=",
@@ -17590,15 +17606,24 @@
                         "referenceType": "int24Bit"
                     },
                     {
-                        "name": "propertyData4",
+                        "name": "realData",
                         "description": "",
-                        "notes": "",
+                        "notes": "real is 4 bytes",
                         "conditional": {
-                            "indicator": "self.propertyTag.lengthValueType",
-                            "operator": "=",
-                            "value": 4
+                            "and": [
+                                {
+                                    "indicator": "self.propertyTag.lengthValueType",
+                                    "operator": "=",
+                                    "value": 4
+                                },
+                                {
+                                    "indicator": "self.propertyTag.tagNumber",
+                                    "operator": "=",
+                                    "value": "BACNET_ENUM::ObjectIdentifier::REAL"
+                                }
+                            ]
                         },
-                        "type": "uint",
+                        "type": "real",
                         "size": 32
                     },
                     {
