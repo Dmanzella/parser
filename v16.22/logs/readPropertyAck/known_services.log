@@ -1,0 +1,13 @@
+#separator \x09
+#set_separator	,
+#empty_field	(empty)
+#unset_field	-
+#path	known_services
+#open	2024-08-08-09-02-56
+#fields	ts	host	port_num	port_proto	service
+#types	time	addr	port	enum	set[string]
+1614578475.525721	192.168.0.5	47808	udp	(empty)
+1614578559.192735	192.168.0.16	47808	udp	(empty)
+1614579753.344184	172.16.42.1	47808	udp	SPICY_BACNET_UDP
+1614579927.374046	172.16.8.10	47808	udp	(empty)
+#close	2024-08-08-09-02-58

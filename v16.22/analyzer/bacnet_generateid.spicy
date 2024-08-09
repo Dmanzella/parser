@@ -1,0 +1,3 @@
+module BACNET_GENERATEID;
+
+public function generateId() : string &cxxname="BACNET_GENERATEID::generateId";

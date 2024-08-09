@@ -1,0 +1,13 @@
+module Zeek_BACnet;
+
+import BACNET;
+import spicy;
+
+on BACNET::Messages::%done {
+    spicy::accept_input();
+}
+
+on BACNET::Messages::%error {
+    spicy::decline_input("error parsing BACnet message");
+}
+

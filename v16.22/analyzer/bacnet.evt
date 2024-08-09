@@ -1,0 +1,34 @@
+import BACNET;
+import BACNET_ENUM;
+import BACNET_GENERATEID;
+import BACNET_CONVERSION;
+import Zeek_BACnet;
+
+protocol analyzer spicy::BACNET_UDP over UDP:
+    parse with BACNET::Messages,
+    ports {47808/udp};
+
+export BACNET::Messages;
+export BACNET::Message;
+export BACNET::initializeRoutingTablePorts;
+export BACNET::propertyValue;
+
+on BACNET::Message -> event BACNET::MessageEvt (
+    $conn,
+    $is_orig,
+    self
+);
+
+on BACNET::initializeRoutingTablePorts -> event BACNET::initializeRoutingTablePortsEvt (
+    $conn,
+    $is_orig,
+    self
+);
+
+on BACNET::propertyValue -> event BACNET::propertyValueEvt (
+    $conn,
+    $is_orig,
+    self
+);
+
+

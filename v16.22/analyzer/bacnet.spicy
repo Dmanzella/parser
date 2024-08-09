@@ -1,0 +1,454 @@
+module BACNET;
+
+import spicy;
+
+import BACNET_ENUM;
+import BACNET_GENERATEID;
+import BACNET_CONVERSION;
+
+public type Messages = unit {
+     : Message[];
+};
+
+public type Message = unit {
+    header       : BACNET::Header;
+    body         : BACNET::Body(self.header.length);
+};
+
+type Header = unit {
+    blvcType                 : uint8 &convert=BACNET_ENUM::BlvcType($$);
+    blvcFunction             : uint8 &convert=BACNET_ENUM::BlvcFunction($$);
+    length                   : uint16;
+    switch(self.blvcFunction) {
+        BACNET_ENUM::BlvcFunction::FORWARDED_NPDU                       -> forwardNPDU  : BACNET::ForwardedNpdu;
+        *                                                               -> void;
+    };
+};
+
+type Body = unit (length : uint16) {
+    versionNumber            : uint8;
+    npduControl              : bitfield(8) {
+                                   # 1 is npdu, message field present. 0 is apdu, message type field is absent
+                                   apduOrNPDU               : 7;
+                                   # 0: DNET, DLEN, DADR, and Hop Count absent. 1: DNET, DLEN, and Hop Count present
+                                   destinationSpecifier     : 5;
+                                   # 0: SNET, SLEN, and SADR absent. 1: SNET, SLEN, and SADR present
+                                   sourceSpecifier          : 3;
+                                   # 1: indicates that a BACnet-Confirmed-Request-PDU, a segment of a BACnet-ComplexAck-PDU, or a network layer message expecting a reply is present. 0: Indicates that other than a BACnet-COnfirmed-Request-PDU, a segment of a BACnet-ComplexAck-PDU, or a network layer message expectign a reply is present.
+                                   expectingReply           : 2;
+                                   networkPriority          : 0..1 &convert=BACNET_ENUM::NPDUControlNetPrio($$);
+                               };
+    # 2 octet ultimate destination MAC layer address (65535 is global broadcast)
+    dnet                     : uint16 if (self.npduControl.destinationSpecifier == 1);
+    # 1 octet length of ultimate destination MAC layer address (0 indicates a broadcast)
+    dlen                     : uint8 if (self.npduControl.destinationSpecifier == 1);
+    # ultimate destination MAC layer address
+    dadr                     : (uint8)[self.dlen] if (self.npduControl.destinationSpecifier == 1 && self.dlen != 0);
+    snet                     : uint16 if (self.npduControl.sourceSpecifier == 1);
+    # 1 octet length of original source MAC layer address
+    slen                     : uint8 if (self.npduControl.sourceSpecifier == 1);
+    # Original source MAC layer address
+    sadr                     : (uint8)[self.slen] if (self.npduControl.sourceSpecifier == 1);
+    hopCount                 : uint8 if (self.npduControl.destinationSpecifier == 1);
+    npduMessageObject        : BACNET::NpduMessageObject(length) if (self.npduControl.apduOrNPDU == 1);
+    apduMessageObject        : BACNET::ApduMessageObject(length, self.npduControl.destinationSpecifier, self.npduControl.sourceSpecifier) if (self.npduControl.apduOrNPDU == 0);
+};
+
+type NpduMessageObject = unit (length : uint16) {
+    npduMessageType      : uint8 &convert=BACNET_ENUM::NpduMessageTypes($$);
+    switch(self.npduMessageType) {
+        BACNET_ENUM::NpduMessageTypes::who_is_router_to_network             -> wirtnMessage     : BACNET::destinationAddresses;
+        BACNET_ENUM::NpduMessageTypes::i_am_router_to_network               -> iartnMessage     : BACNET::destinationAddresses;
+        BACNET_ENUM::NpduMessageTypes::i_could_be_router_to_network         -> icbrtnMessage    : BACNET::iCouldBeRouterToNetwork;
+        BACNET_ENUM::NpduMessageTypes::reject_message_to_network            -> rmtnMessage      : BACNET::rejectMessageToNetwork;
+        BACNET_ENUM::NpduMessageTypes::router_busy_to_network               -> rbtnMessage      : BACNET::destinationAddresses;
+        BACNET_ENUM::NpduMessageTypes::router_available_to_network          -> ratnMessage      : BACNET::destinationAddresses;
+        BACNET_ENUM::NpduMessageTypes::initialize_routing_table             -> irtMessage       : BACNET::InitializeRoutingTable;
+        BACNET_ENUM::NpduMessageTypes::initialize_routing_table_ack         -> irtaMessage      : BACNET::InitializeRoutingTable;
+        BACNET_ENUM::NpduMessageTypes::establish_connection_to_network      -> ectnMessage      : BACNET::EstablishConnectionToNetwork;
+        BACNET_ENUM::NpduMessageTypes::disconnect_connection_to_network     -> dctnMessage      : BACNET::DisconnectConnectionToNetwork;
+        BACNET_ENUM::NpduMessageTypes::networknumber_is                     -> niMessage        : BACNET::NetworkNumberIs;
+        *                                                                   -> data             : (uint8)[length];
+    };
+};
+
+type ApduMessageObject = unit (length : uint16, destinationSpecifier : uint8, sourceSpecifier : uint8) {
+    apduType         : bitfield(8) {
+                           pduType  : 4..7 &convert=BACNET_ENUM::ApduTypes($$);
+                           seg      : 3;
+                           mor      : 2;
+                           sa       : 1;
+                           # For Abort PDu type
+                           srv      : 0;
+                       };
+    switch(self.apduType.pduType) {
+        BACNET_ENUM::ApduTypes::CONFIRMED_REQUEST    -> confirmedReq     : BACNET::ConfirmedRequest(self.apduType.seg, length);
+        BACNET_ENUM::ApduTypes::UNCONFIRMED_REQUEST  -> unconfirmedREQ   : BACNET::UnconfirmedRequest(length, destinationSpecifier, sourceSpecifier);
+        BACNET_ENUM::ApduTypes::SIMPLE_ACK           -> simpleAck        : BACNET::SimpleAck(length);
+        BACNET_ENUM::ApduTypes::COMPLEX_ACK          -> complexAck       : BACNET::ComplexAck(self.apduType.seg, length);
+        BACNET_ENUM::ApduTypes::SEGMENT_ACK          -> segmentAck       : BACNET::SegmentAck(length);
+        BACNET_ENUM::ApduTypes::ERROR_PDU            -> errorPdu         : BACNET::ErrorPdu(length);
+        BACNET_ENUM::ApduTypes::REJECT_PDU           -> rejectPdu        : BACNET::RejectPdu(length);
+        BACNET_ENUM::ApduTypes::ABORT_PDU            -> abortPdu         : BACNET::AbortPdu(length);
+        *                                            -> data             : (uint8)[length];
+    };
+};
+
+type destinationAddresses = unit {
+    destinationNetworkAddresses      : (uint16)[] &eod;
+};
+
+type iCouldBeRouterToNetwork = unit {
+    destinationAddress       : uint16;
+    performanceIndex         : uint8;
+};
+
+type rejectMessageToNetwork = unit {
+    rejectionReason              : uint8 &convert=BACNET_ENUM::RejectReasons($$);
+    rjmtnDestinationAddress      : uint16;
+};
+
+type InitializeRoutingTable = unit {
+    var initializeRoutingTablePortsLinkID : string;
+    on %init() {
+        self.initializeRoutingTablePortsLinkID = BACNET_GENERATEID::generateId();
+    }
+    numberOfPorts        : uint8;
+    portMappings         : (BACNET::initializeRoutingTablePorts(self.initializeRoutingTablePortsLinkID))[self.numberOfPorts];
+};
+
+type initializeRoutingTablePorts = unit (listParentLinkId : string) {
+    var initializeRoutingTablePortsLinkID : string;
+    on %init() {
+        self.initializeRoutingTablePortsLinkID = listParentLinkId;
+    }
+    connectedDNET        : uint16;
+    portID               : uint8;
+    portInfoLength       : uint8;
+    portInfo             : (uint8)[self.portInfoLength];
+};
+
+type EstablishConnectionToNetwork = unit {
+    ectnDNET                     : uint16;
+    TerminationTimeValue         : uint8;
+};
+
+type DisconnectConnectionToNetwork = unit {
+    dctnDNET         : uint16;
+};
+
+type NetworkNumberIs = unit {
+    nniDNET                  : uint16;
+    networkNumberIsEnum      : uint8 &convert=BACNET_ENUM::NetworkNumberIsEnum($$);
+};
+
+type UnconfirmedRequest = unit (length : uint16, destinationSpecifier : uint8, sourceSpecifier : uint8) {
+    unconfirmedServiceChoice         : uint8 &convert=BACNET_ENUM::UnconfirmedServiceChoices($$);
+    switch(self.unconfirmedServiceChoice) {
+        BACNET_ENUM::UnconfirmedServiceChoices::I_AM                                     -> iAm                              : BACNET::IAm(length);
+        BACNET_ENUM::UnconfirmedServiceChoices::I_HAVE                                   -> iHave                            : BACNET::IHave(length);
+        BACNET_ENUM::UnconfirmedServiceChoices::UNCONFIRMED_COV_NOTIFICATION             -> unconfirmedCovNotification       : BACNET::UnconfirmedCovNotification(length);
+        BACNET_ENUM::UnconfirmedServiceChoices::UNCONFIRMED_EVENT_NOTIFICATION           -> unconfirmedEventNotification     : BACNET::UnconfirmedEventNotification(length);
+        BACNET_ENUM::UnconfirmedServiceChoices::UNCONFIRMED_PRIVATE_TRANSFER             -> unconfirmedPrivateTransfer       : BACNET::UnconfirmedPrivateTransfer(length);
+        BACNET_ENUM::UnconfirmedServiceChoices::UNCONFIRMED_TEXT_MESSAGE                 -> unconfirmedTextMessage           : BACNET::UnconfirmedTextMessage(length);
+        BACNET_ENUM::UnconfirmedServiceChoices::TIME_SYNCHRONIZATION                     -> timeSynchronization              : BACNET::TimeSynchronization(length);
+        BACNET_ENUM::UnconfirmedServiceChoices::WHO_HAS                                  -> whoHas                           : BACNET::WhoHas(length, destinationSpecifier, sourceSpecifier);
+        BACNET_ENUM::UnconfirmedServiceChoices::WHO_IS                                   -> whoIs                            : BACNET::WhoIs(length, destinationSpecifier, sourceSpecifier);
+        BACNET_ENUM::UnconfirmedServiceChoices::UTC_TIME_SYNCHRONIZATION                 -> utcTimeSynchronization           : BACNET::UtcTimeSynchronization(length);
+        *                                                                                -> void;
+    };
+};
+
+type ConfirmedRequest = unit (apduTypeSeg : uint8, length : uint16) {
+    confirmedRequestBits         : bitfield(8) {
+                                       maxSegs  : 4..6;
+                                       maxResp  : 0..3;
+                                   };
+    confirmedInvokeID            : uint8;
+    sequenceNumber               : uint8 if (apduTypeSeg == 1);
+    proposedSizeWindow           : uint8 if (apduTypeSeg == 1);
+    confirmedServiceChoice       : uint8 &convert=BACNET_ENUM::ConfirmedServiceChoices($$);
+    switch(self.confirmedServiceChoice) {
+        BACNET_ENUM::ConfirmedServiceChoices::READ_PROPERTY                    -> readProperty     : BACNET::ReadProperty(length);
+        BACNET_ENUM::ConfirmedServiceChoices::WRITE_PROPERTY                   -> writeProperty    : BACNET::WriteProperty(length);
+        *                                                                      -> void;
+    };
+};
+
+type SimpleAck = unit (length : uint16) {
+    simpleInvokeID               : uint8;
+    confirmedServiceChoice       : uint8 &convert=BACNET_ENUM::ConfirmedServiceChoices($$);
+};
+
+type ComplexAck = unit (apduTypeSeg : uint8, length : uint16) {
+    OriginalInvokeID             : uint8;
+    sequenceNumber               : uint8 if (apduTypeSeg == 1);
+    proposedWindowsSize          : uint8 if (apduTypeSeg == 1);
+    serviceAckChoice             : uint8 &convert=BACNET_ENUM::ConfirmedServiceChoices($$);
+    switch(self.serviceAckChoice) {
+        BACNET_ENUM::ConfirmedServiceChoices::READ_PROPERTY                    -> readPropertyAck  : BACNET::ReadPropertyAck(length);
+        *                                                                      -> void;
+    };
+};
+
+type SegmentAck = unit (length : uint16) {
+    OriginalInvokeID         : uint8;
+    sequenceNumber           : uint8;
+    actualWindowSize         : uint8;
+};
+
+type ErrorPdu = unit (length : uint16) {
+    OriginalInvokeID             : uint8;
+    confirmedServiceChoice       : uint8 &convert=BACNET_ENUM::ConfirmedServiceChoices($$);
+    errorClassTags               : bitfield(8) {
+                                       tagNumber        : 4..7 &convert=BACNET_ENUM::ObjectIdentifier($$);
+                                       class            : 3..3 &convert=BACNET_ENUM::TagType($$);
+                                       lengthValueType  : 0..2;
+                                   };
+    errorClass                   : uint8 &convert=BACNET_ENUM::ErrorClass($$);
+    errorCodeTags                : bitfield(8) {
+                                       tagNumber        : 4..7 &convert=BACNET_ENUM::ObjectIdentifier($$);
+                                       class            : 3..3 &convert=BACNET_ENUM::TagType($$);
+                                       lengthValueType  : 0..2;
+                                   };
+    errorCode                    : uint8 &convert=BACNET_ENUM::ErrorCodes($$);
+};
+
+type RejectPdu = unit (length : uint16) {
+    originalInvokeID         : uint8;
+    rejectReason             : uint8 &convert=BACNET_ENUM::ApduRejectReasons($$);
+};
+
+type AbortPdu = unit (length : uint16) {
+    originalInvokeID         : uint8;
+    abortReason              : uint8 &convert=BACNET_ENUM::AbortReasons($$);
+};
+
+type IAm = unit (length : uint16) {
+    iAmDeviceIdentifier              : BACNET::ObjectIdentifier;
+    iAmMaxLengthTag                  : bitfield(8) {
+                                           tagNumber        : 4..7 &convert=BACNET_ENUM::ObjectIdentifier($$);
+                                           class            : 3..3 &convert=BACNET_ENUM::TagType($$);
+                                           lengthValueType  : 0..2;
+                                       };
+    maximumApduLength                : uint8 if (self.iAmMaxLengthTag.lengthValueType == 1);
+    maxmiumApduLength2               : uint16 if (self.iAmMaxLengthTag.lengthValueType == 2);
+    segmentationSupportedTag         : bitfield(8) {
+                                           tagNumber        : 4..7 &convert=BACNET_ENUM::ObjectIdentifier($$);
+                                           class            : 3..3 &convert=BACNET_ENUM::TagType($$);
+                                           lengthValueType  : 0..2;
+                                       };
+    segmentationSupported            : uint8 &convert=BACNET_ENUM::SegmentationEnum($$);
+    VendorIDTag                      : bitfield(8) {
+                                           tagNumber        : 4..7 &convert=BACNET_ENUM::ObjectIdentifier($$);
+                                           class            : 3..3 &convert=BACNET_ENUM::TagType($$);
+                                           lengthValueType  : 0..2;
+                                       };
+    vendorID                         : uint8 &convert=BACNET_ENUM::VendorID1($$) if (self.VendorIDTag.lengthValueType == 1);
+    vendorID2                        : uint16 &convert=BACNET_ENUM::VendorID2($$) if (self.VendorIDTag.lengthValueType == 2);
+};
+
+type IHave = unit (length : uint16) {
+    objectIdentifier1        : BACNET::ObjectIdentifier;
+    objectIdentifier2        : BACNET::ObjectIdentifier;
+    objectName               : BACNET::ObjectName;
+};
+
+type UnconfirmedCovNotification = unit (length : uint16) {
+    data10       : (uint8)[] &eod;
+};
+
+type UnconfirmedEventNotification = unit (length : uint16) {
+    data11       : (uint8)[] &eod;
+};
+
+type UnconfirmedPrivateTransfer = unit (length : uint16) {
+    data12       : (uint8)[] &eod;
+};
+
+type UnconfirmedTextMessage = unit (length : uint16) {
+    data13       : (uint8)[] &eod;
+};
+
+type TimeSynchronization = unit (length : uint16) {
+    data14       : (uint8)[] &eod;
+};
+
+type WhoHas = unit (length : uint16, destinationSpecifier : uint8, sourceSpecifier : uint8) {
+    # Don't know how to parse 2 optional fields followed by xor field in identifier or name. Saving as data for now.
+    WhoHasData       : (uint8)[] &eod;
+};
+
+type WhoIs = unit (length : uint16, destinationSpecifier : uint8, sourceSpecifier : uint8) {
+    deviceLowLimitTags       : bitfield(8) {
+                                   tagNumber        : 4..7 &convert=BACNET_ENUM::ObjectIdentifier($$);
+                                   class            : 3..3 &convert=BACNET_ENUM::TagType($$);
+                                   lengthValueType  : 0..2;
+                               } if (length > 13 && length != 0);
+    deviceLowLimit           : uint8 if (length > 13 && self.deviceLowLimitTags.lengthValueType == 1);
+    deviceLowLimit2          : uint16 if (length > 13 && self.deviceLowLimitTags.lengthValueType == 2);
+    deviceLowLimit3          : BACNET::DeviceLimitLow if (length > 13 && self.deviceLowLimitTags.lengthValueType == 3);
+    deviceHighLimitTags      : bitfield(8) {
+                                   tagNumber        : 4..7 &convert=BACNET_ENUM::ObjectIdentifier($$);
+                                   class            : 3..3 &convert=BACNET_ENUM::TagType($$);
+                                   lengthValueType  : 0..2;
+                               } if (length > 13 && length != 0);
+    deviceHighLimit          : uint8 if (length > 13 && self.deviceHighLimitTags.lengthValueType == 1);
+    deviceHighLimit2         : uint16 if (length > 13 && self.deviceHighLimitTags.lengthValueType == 2);
+    deviceHighLimit3         : BACNET::DeviceLimitHigh if (length > 13 && self.deviceHighLimitTags.lengthValueType == 3);
+};
+
+type UtcTimeSynchronization = unit (length : uint16) {
+    data17       : (uint8)[] &eod;
+};
+
+type WriteGroup = unit (length : uint16) {
+    data18       : (uint8)[] &eod;
+};
+
+type UnconfirmedCovMultiple = unit (length : uint16) {
+    data19       : (uint8)[] &eod;
+};
+
+type ObjectIdentifier = unit {
+    deviceIdentifier             : bitfield(8) {
+                                       tagNumber        : 4..7 &convert=BACNET_ENUM::ObjectIdentifier($$);
+                                       class            : 3..3 &convert=BACNET_ENUM::TagType($$);
+                                       lengthValueType  : 0..2;
+                                   };
+    objectIdentifierBits         : bitfield(32) {
+                                       ObjectType       : 22..31 &convert=BACNET_ENUM::ObjectTypes($$);
+                                       # all 1s, or 4194303 value with datatype bacnetObjectIdentifier indicates the property is not initialized
+                                       InstanceNumber   : 0..21;
+                                   };
+};
+
+type ObjectName = unit {
+    objectNameTags           : bitfield(8) {
+                                   tagNumber        : 4..7 &convert=BACNET_ENUM::ObjectIdentifier($$);
+                                   class            : 3..3 &convert=BACNET_ENUM::TagType($$);
+                                   lengthValueType  : 0..2;
+                               };
+    extendedLength           : uint8;
+    characterStringSet       : uint8 &convert=BACNET_ENUM::characterStringEnum($$);
+    # need to convert to a string
+    objectName               : (uint8)[] &eod;
+};
+
+type ForwardedNpdu = unit {
+    ip               : uint32;
+    portNumber       : uint16;
+};
+
+type DeviceLimitLow = unit {
+    var deviceLimitLow   : uint64;
+                         : bytes &size=3 {
+                               self.deviceLimitLow = $$.to_uint(spicy::ByteOrder::Big);
+                           }
+};
+
+type DeviceLimitHigh = unit {
+    var deviceLimitHigh  : uint64;
+                         : bytes &size=3 {
+                               self.deviceLimitHigh = $$.to_uint(spicy::ByteOrder::Big);
+                           }
+};
+
+type int24Bit = unit {
+    var intVal   : uint64;
+                 : bytes &size=3 {
+                       self.intVal = $$.to_uint(spicy::ByteOrder::Big);
+                   }
+};
+
+type PropertyIdentifier = unit (length : uint16) {
+    propertyTags             : bitfield(8) {
+                                   tagNumber        : 4..7 &convert=BACNET_ENUM::ObjectIdentifier($$);
+                                   class            : 3..3 &convert=BACNET_ENUM::TagType($$);
+                                   lengthValueType  : 0..2;
+                               };
+    propertyIdentifier       : uint8 &convert=BACNET_ENUM::PropertyIdentifierEnum($$) if (self.propertyTags.lengthValueType == 1);
+};
+
+type ReadProperty = unit (length : uint16) {
+    objectIdentifier             : BACNET::ObjectIdentifier;
+    propertyTags                 : bitfield(8) {
+                                       tagNumber        : 4..7 &convert=BACNET_ENUM::ObjectIdentifier($$);
+                                       class            : 3..3 &convert=BACNET_ENUM::TagType($$);
+                                       lengthValueType  : 0..2;
+                                   };
+    propertyIdentifier           : uint8 &convert=BACNET_ENUM::PropertyIdentifierEnum($$) if (self.propertyTags.lengthValueType == 1);
+    propertyIdentifier2          : uint16 &convert=BACNET_ENUM::PropertyIdentifierEnum2($$) if (self.propertyTags.lengthValueType == 2);
+    # contains the property Array Index tag and value, needs to be an optional field to work correctly which isnt is parsnip currently. Last value is the array index, first are the tag bitfield
+    propertyArrayIndexData       : (uint8)[] &eod;
+};
+
+type ReadPropertyAck = unit (length : uint16) {
+    var propertyValueLinkID : string;
+    on %init() {
+        self.propertyValueLinkID = BACNET_GENERATEID::generateId();
+    }
+    objectIdentifier         : BACNET::ObjectIdentifier;
+    propertyIdentifier       : BACNET::PropertyIdentifier(length);
+    openingTag               : bitfield(8) {
+                                   tagNumber        : 4..7 &convert=BACNET_ENUM::ObjectIdentifier($$);
+                                   class            : 3..3 &convert=BACNET_ENUM::TagType($$);
+                                   lengthValueType  : 0..2;
+                               };
+    propertyList             : (BACNET::propertyValue(length, self.propertyValueLinkID))[] &eod if (length >= 39);
+    closingTag               : bitfield(8) {
+                                   tagNumber        : 4..7 &convert=BACNET_ENUM::ObjectIdentifier($$);
+                                   class            : 3..3 &convert=BACNET_ENUM::TagType($$);
+                                   lengthValueType  : 0..2;
+                               };
+    # not in spec, using this to catch all the data the parser misses
+    restOfData               : (uint8)[] &eod;
+};
+
+type WriteProperty = unit (length : uint16) {
+    objectIdentifier         : BACNET::ObjectIdentifier;
+    propertyTags             : bitfield(8) {
+                                   tagNumber        : 4..7 &convert=BACNET_ENUM::ObjectIdentifier($$);
+                                   class            : 3..3 &convert=BACNET_ENUM::TagType($$);
+                                   lengthValueType  : 0..2;
+                               };
+    propertyIdentifier       : uint8 &convert=BACNET_ENUM::PropertyIdentifierEnum($$) if (self.propertyTags.lengthValueType == 1);
+    propertyIdentifier2      : uint16 &convert=BACNET_ENUM::PropertyIdentifierEnum2($$) if (self.propertyTags.lengthValueType == 2);
+    openingTag               : bitfield(8) {
+                                   tagNumber        : 4..7 &convert=BACNET_ENUM::ObjectIdentifier($$);
+                                   class            : 3..3 &convert=BACNET_ENUM::TagType($$);
+                                   lengthValueType  : 0..2;
+                               };
+    propertyTag              : bitfield(8) {
+                                   tagNumber        : 4..7 &convert=BACNET_ENUM::ObjectIdentifier($$);
+                                   class            : 3..3 &convert=BACNET_ENUM::TagType($$);
+                                   lengthValueType  : 0..2;
+                               };
+    # These 4 fields need to eventually be conditional on the propertyTag tagNumber enum which specifies the data type
+    propertyData             : uint8 if (self.propertyTag.lengthValueType == 1);
+    propertyData2            : uint16 if (self.propertyTag.lengthValueType == 2);
+    # cant do conditional statement on 24 bit field, this is the workaround
+    propertyData3            : BACNET::int24Bit if (self.propertyTag.lengthValueType == 3);
+    # real is 4 bytes
+    realData                 : bytes &size=4 &convert=BACNET_CONVERSION::realConversion($$) if (self.propertyTag.lengthValueType == 4 && self.propertyTag.tagNumber == BACNET_ENUM::ObjectIdentifier::REAL);
+    # not in scope, Can't parse array of values, so this is in place so if there are more values that they all go to this field. The original binpac parser also does not log array of writes, only singles. Ideally this wont show up in log
+    restOfData               : (uint8)[] &eod;
+};
+
+type propertyValue = unit (length : uint16, listParentLinkId : string) {
+    var propertyValueLinkID : string;
+    on %init() {
+        self.propertyValueLinkID = listParentLinkId;
+    }
+    propertyTag          : bitfield(8) {
+                               tagNumber        : 4..7 &convert=BACNET_ENUM::ObjectIdentifier($$);
+                               class            : 3..3 &convert=BACNET_ENUM::TagType($$);
+                               lengthValueType  : 0..2;
+                           };
+    propertyData         : uint8 if (self.propertyTag.lengthValueType == 1);
+    propertyData2        : uint16 if (self.propertyTag.lengthValueType == 2);
+    threeByteData        : BACNET::int24Bit if (self.propertyTag.lengthValueType == 3);
+    propertyData4        : uint32 if (self.propertyTag.lengthValueType == 4);
+};
+
+# vim: ai si tabstop=4 shiftwidth=4 softtabstop=4 expandtab colorcolumn=101 syntax=spicy

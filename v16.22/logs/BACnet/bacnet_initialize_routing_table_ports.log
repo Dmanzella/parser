@@ -1,0 +1,23 @@
+#separator \x09
+#set_separator	,
+#empty_field	(empty)
+#unset_field	-
+#path	bacnet_initialize_routing_table_ports
+#open	2024-08-09-05-21-45
+#fields	ts	uid	id.orig_h	id.orig_p	id.resp_h	id.resp_p	proto	initialize_routing_table_ports_link_id	initialize_routing_table_ports_connected_dnet	initialize_routing_table_ports_port_id	initialize_routing_table_ports_port_info_length	initialize_routing_table_ports_port_info
+#types	time	string	addr	port	addr	port	string	string	count	count	count	vector[count]
+1614578399.524018	CgU5aB2yky6KBMQG12	192.168.0.99	47808	192.168.0.45	47808	bacnet	30142138fc19a6df97	2001	0	0	(empty)
+1614578399.524018	CgU5aB2yky6KBMQG12	192.168.0.99	47808	192.168.0.45	47808	bacnet	30142138fc19a6df97	1	1	0	(empty)
+1614578406.106749	CjsTiS3A0KMRWsmP0d	192.168.0.103	47808	192.168.0.24	47808	bacnet	a850de1bbadbcee96b	4003	3	0	(empty)
+1614578406.106749	CjsTiS3A0KMRWsmP0d	192.168.0.103	47808	192.168.0.24	47808	bacnet	a850de1bbadbcee96b	4000	3	0	(empty)
+1614578406.106749	CjsTiS3A0KMRWsmP0d	192.168.0.103	47808	192.168.0.24	47808	bacnet	a850de1bbadbcee96b	4001	3	0	(empty)
+1614578406.106749	CjsTiS3A0KMRWsmP0d	192.168.0.103	47808	192.168.0.24	47808	bacnet	a850de1bbadbcee96b	26001	5	0	(empty)
+1614578451.222147	CI5Gze31MZ3NilfNAb	192.168.0.24	47808	192.168.0.106	47808	bacnet	6eea8d7eae79b09e11	26001	5	0	(empty)
+1614578515.409850	CjYuQk4w9MPeZznHA4	192.168.0.24	47808	192.168.0.106	47808	bacnet	edf33d2c183a4c8129	26001	5	0	(empty)
+1614578583.255933	CaukM32fjTRaY2S144	192.168.0.106	47808	192.168.0.24	47808	bacnet	d94ee212e20dc4edd8	26001	5	0	(empty)
+1614578667.684448	Cug5gY1MnF0xSQAaDf	192.168.0.106	47808	192.168.0.24	47808	bacnet	d9a7a357827ba0e343	26001	5	0	(empty)
+1614579105.084116	CvnMePzYS8qejZq32	192.168.0.106	47808	192.168.0.24	47808	bacnet	33eddb6a05c2c84572	26001	5	0	(empty)
+1614579155.143824	CvnMePzYS8qejZq32	192.168.0.106	47808	192.168.0.24	47808	bacnet	dd059858d8cd044a18	26001	5	0	(empty)
+1614579168.722001	CvnMePzYS8qejZq32	192.168.0.106	47808	192.168.0.24	47808	bacnet	661d917fa8f4234ff2	26001	5	0	(empty)
+1614579181.965584	CvnMePzYS8qejZq32	192.168.0.106	47808	192.168.0.24	47808	bacnet	85659f84f52e403a95	26001	5	0	(empty)
+#close	2024-08-09-05-21-53

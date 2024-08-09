@@ -1,0 +1,9 @@
+module BACNET_CONVERSION;
+
+public function dateConversion(input: bytes) : string &cxxname="BACNET_CONVERSION::dateConversion";
+
+public function realConversion(input: bytes) : string &cxxname="BACNET_CONVERSION::realConversion";
+
+public function doubleConversion(input: bytes) : string &cxxname="BACNET_CONVERSION::doubleConversion";
+
+
